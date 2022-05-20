@@ -9,8 +9,6 @@ import { Negociacoes } from "../models/negociacoes.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
 import { DiasDaSemana } from '../enums/dias-da-semana.js';
-import { logarTempoDeExecucao } from "../decorators/logar-tempo-de-execucao.js";
-import { inspect } from '../decorators/inspect.js';
 import { domInjector } from "../decorators/domInjector.js";
 export class NegociacaoController {
     constructor() {
@@ -18,6 +16,9 @@ export class NegociacaoController {
         this.negociacoesView = new NegociacoesView('#negociacoesView');
         this.mensagemView = new MensagemView('#mensagemView');
         this.negociacoesView.update(this.negociacoes);
+    }
+    importaDados() {
+        alert('Importando dados...');
     }
     adiciona() {
         const negociacao = Negociacao.CriaDe(this.inputData.value, this.inputQuantidade.value, this.inputValor.value);
@@ -54,7 +55,3 @@ __decorate([
 __decorate([
     domInjector('#valor')
 ], NegociacaoController.prototype, "inputValor", void 0);
-__decorate([
-    inspect,
-    logarTempoDeExecucao()
-], NegociacaoController.prototype, "adiciona", null);

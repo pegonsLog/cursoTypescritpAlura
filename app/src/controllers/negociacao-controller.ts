@@ -14,7 +14,7 @@ export class NegociacaoController {
 
     @domInjector('#quantidade')
     private inputQuantidade: HTMLInputElement;
-    
+
     @domInjector('#valor')
     private inputValor: HTMLInputElement;
 
@@ -23,12 +23,14 @@ export class NegociacaoController {
     private mensagemView = new MensagemView('#mensagemView');
 
     constructor() {
-          this.negociacoesView.update(this.negociacoes);
+        this.negociacoesView.update(this.negociacoes);
+    }
+    importaDados() {
+        alert('Importando dados...');
     }
 
-    @inspect
-    @logarTempoDeExecucao()
     public adiciona(): void {
+
 
         const negociacao = Negociacao.CriaDe(this.inputData.value, this.inputQuantidade.value, this.inputValor.value);
 
