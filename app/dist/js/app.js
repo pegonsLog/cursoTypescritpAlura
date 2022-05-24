@@ -12,10 +12,10 @@ else {
 }
 const botaoImporta = document.querySelector('#botao-importa');
 if (botaoImporta) {
-    botaoImporta.addEventListener('click', event => {
+    botaoImporta.addEventListener('click', () => {
         controller.importaDados();
     });
 }
 else {
-    throw new Error('Botão Importa não existe.');
+    throw new Error('Botão Importa não foi encontrado.');
 }

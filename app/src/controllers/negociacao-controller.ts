@@ -1,11 +1,11 @@
+import { domInjector } from "../decorators/domInjector.js";
+import { DiasDaSemana } from '../enums/dias-da-semana.js';
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
-import { DiasDaSemana } from '../enums/dias-da-semana.js';
-import { logarTempoDeExecucao } from "../decorators/logar-tempo-de-execucao.js";
-import { inspect } from '../decorators/inspect.js';
-import { domInjector } from "../decorators/domInjector.js";
+import { NegociacaoService } from '../service/negociacoes-service.js';
+import { imprimir } from '../utils/imprimir.js';
 
 export class NegociacaoController {
 
@@ -21,16 +21,13 @@ export class NegociacaoController {
     private negociacoes = new Negociacoes();
     private negociacoesView = new NegociacoesView('#negociacoesView');
     private mensagemView = new MensagemView('#mensagemView');
+    private negociacoesService = new NegociacaoService();
 
     constructor() {
         this.negociacoesView.update(this.negociacoes);
     }
-    importaDados() {
-        alert('Importando dados...');
-    }
 
     public adiciona(): void {
-
 
         const negociacao = Negociacao.CriaDe(this.inputData.value, this.inputQuantidade.value, this.inputValor.value);
 
@@ -41,8 +38,20 @@ export class NegociacaoController {
         }
 
         this.negociacoes.adiciona(negociacao);
+        imprimir(negociacao, this.negociacoes);
+        this.negociacoes.paraTexto();
         this.limparFormulario();
         this.atualizaView();
+    }
+
+    public importaDados(): void {
+        this.negociacoesService.obterNegociacoesDoDia()
+            .then(negociacoesDeHoje => {
+                for (let negociacao of negociacoesDeHoje) {
+                    this.negociacoes.adiciona(negociacao);
+                    this.negociacoesView.update(this.negociacoes);
+                }
+            })
     }
 
     private ehDiaUtil(data: Date): boolean {
