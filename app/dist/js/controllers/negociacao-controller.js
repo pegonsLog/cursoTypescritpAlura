@@ -36,6 +36,12 @@ export class NegociacaoController {
     importaDados() {
         this.negociacoesService.obterNegociacoesDoDia()
             .then(negociacoesDeHoje => {
+            return negociacoesDeHoje.filter(negociacaoDeHoje => {
+                return !this.negociacoes.lista()
+                    .some(negociacao => negociacao.ehIgual(negociacaoDeHoje));
+            });
+        })
+            .then(negociacoesDeHoje => {
             for (let negociacao of negociacoesDeHoje) {
                 this.negociacoes.adiciona(negociacao);
                 this.negociacoesView.update(this.negociacoes);
@@ -66,3 +72,4 @@ __decorate([
 __decorate([
     domInjector('#valor')
 ], NegociacaoController.prototype, "inputValor", void 0);
+//# sourceMappingURL=negociacao-controller.js.map
